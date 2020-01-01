@@ -1,4 +1,4 @@
 tensorflow==1.14.0
 opencv-python==4.1.2.30
 scikit-image==0.16.2
-requests==2.18.4
+requests==2.20.0
