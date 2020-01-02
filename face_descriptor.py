@@ -1,12 +1,8 @@
-import cv2
-import sys
 import numpy as np
 import tensorflow as tf
 from tensorflow.python.platform import gfile
 from preprocess import preprocess
 import align.detect_face
-
-minsize = 50
 
 def prewhiten(x):
     mean = np.mean(x)
@@ -48,7 +44,8 @@ class FaceDescriptor():
         self.sess2 = tf.Session(graph=graph2)
         
     def getAlignedImages(self, img):
-        bbox, points = align.detect_face.detect_face(img, minsize, self.pnet, self.rnet, self.onet, [ 0.6, 0.7, 0.8 ], 0.709)
+        bbox, points = align.detect_face.detect_face(img, minsize=50, pnet=self.pnet, rnet=self.rnet, onet=self.onet, 
+                                    threshold=[ 0.6, 0.7, 0.8 ], factor=0.709)
         bbox = bbox[0,0:4]
         points = points.reshape((2,5)).T
 
