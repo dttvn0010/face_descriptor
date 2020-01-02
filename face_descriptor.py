@@ -6,7 +6,6 @@ from tensorflow.python.platform import gfile
 from preprocess import preprocess
 import align.detect_face
 
-margin = 44
 minsize = 50
 
 def prewhiten(x):
@@ -52,20 +51,12 @@ class FaceDescriptor():
         bbox, points = align.detect_face.detect_face(img, minsize, self.pnet, self.rnet, self.onet, [ 0.6, 0.7, 0.8 ], 0.709)
         bbox = bbox[0,0:4]
         points = points.reshape((2,5)).T
-                 
-        img_size = np.asarray(img.shape)[0:2]
-        det = np.squeeze(bbox[0:4])
-        bb = np.zeros(4, dtype=np.int32)
-        bb[0] = np.maximum(det[0]-margin/2, 0)
-        bb[1] = np.maximum(det[1]-margin/2, 0)
-        bb[2] = np.minimum(det[2]+margin/2, img_size[1])
-        bb[3] = np.minimum(det[3]+margin/2, img_size[0])
-        cropped = img[bb[1]:bb[3],bb[0]:bb[2],:]
-        aligned1 = cv2.resize(cropped, (160, 160))
+
+        aligned1 = preprocess(img, bbox, None, image_size='160,160')
         aligned1 = prewhiten(aligned1)        
         
-        nimg = preprocess(img, bbox, points, image_size='112,112')
-        aligned2 = nimg/127.5-1.0
+        aligned2 = preprocess(img, bbox, points, image_size='112,112')
+        aligned2 = aligned2/127.5-1.0
              
         return aligned1, aligned2
         
