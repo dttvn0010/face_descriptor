@@ -116,7 +116,6 @@ class InsightFaceModel:
         embedding = self.sess.run(self.embeddings, feed_dict=feed_dict)[0]
         return embedding/np.linalg.norm(embedding)
 
-
 class FaceDescriptor():
     def __init__(self):
 
