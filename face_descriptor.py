@@ -4,25 +4,28 @@ from tensorflow.python.platform import gfile
 import cv2
 from preprocess import preprocess
 
+def load_graph(model_path):
+    graph = tf.Graph()
+    with graph.as_default():
+        with tf.gfile.GFile(model_path, 'rb') as f:
+            graph_def = tf.GraphDef()
+            graph_def.ParseFromString(f.read())
+            tf.import_graph_def(graph_def, name='')
+    return graph
+
 class DetectModel:
     def __init__(self, model_path):
-        graph = tf.Graph()
-        with graph.as_default():
-            with tf.gfile.GFile(model_path, 'rb') as f:
-                graph_def = tf.GraphDef()
-                graph_def.ParseFromString(f.read())
-                tf.import_graph_def(graph_def, name='')
-                self.input_image = graph.get_tensor_by_name('image_tensor:0')
-                self.boxes_node = graph.get_tensor_by_name('detection_boxes:0')
-                self.scores_node = graph.get_tensor_by_name('detection_scores:0')
-                self.classes_node = graph.get_tensor_by_name('detection_classes:0')
-                self.num_detections_node = graph.get_tensor_by_name('num_detections:0')
-
+        graph = load_graph(model_path)
+        self.input_image = graph.get_tensor_by_name('image_tensor:0')
+        self.boxes_node = graph.get_tensor_by_name('detection_boxes:0')
+        self.scores_node = graph.get_tensor_by_name('detection_scores:0')
+        self.classes_node = graph.get_tensor_by_name('detection_classes:0')
+        self.num_detections_node = graph.get_tensor_by_name('num_detections:0')
         self.sess = tf.Session(graph=graph)
 
     def detect(self, img):
         (boxes, scores, _, _) = self.sess.run([self.boxes_node, self.scores_node, self.classes_node, self.num_detections_node],
-                        feed_dict={self.input_image: np.array([img])})
+                                                feed_dict={self.input_image: np.array([img])})
         if len(boxes[0]) == 0:
             return None
 
@@ -37,15 +40,9 @@ class DetectModel:
 
 class LandmarkModel:
     def __init__(self, model_path):
-        graph = tf.Graph()
-        with graph.as_default():
-            with tf.gfile.GFile(model_path, 'rb') as f:
-                graph_def = tf.GraphDef()
-                graph_def.ParseFromString(f.read())
-                tf.import_graph_def(graph_def, name='')
-                self.input_image = graph.get_tensor_by_name('Cast:0')
-                self.logits_node = graph.get_tensor_by_name('layer6/logits/BiasAdd:0')
-
+        graph = load_graph(model_path)
+        self.input_image = graph.get_tensor_by_name('Cast:0')
+        self.logits_node = graph.get_tensor_by_name('layer6/logits/BiasAdd:0')
         self.sess = tf.Session(graph=graph)
 
     def convert_to_square(self, bbox):
@@ -86,16 +83,10 @@ class LandmarkModel:
 
 class FaceNetModel:
     def __init__(self, model_path):
-        graph = tf.Graph()
-        with graph.as_default():
-            with tf.gfile.GFile(model_path, 'rb') as f:
-                graph_def = tf.GraphDef()
-                graph_def.ParseFromString(f.read())
-                tf.import_graph_def(graph_def, name='')
-                self.input_image = graph.get_tensor_by_name("input:0")
-                self.embeddings = graph.get_tensor_by_name("embeddings:0")
-                self.phase_train_placeholder = graph.get_tensor_by_name("phase_train:0")
-
+        graph = load_graph(model_path)
+        self.input_image = graph.get_tensor_by_name("input:0")
+        self.embeddings = graph.get_tensor_by_name("embeddings:0")
+        self.phase_train_placeholder = graph.get_tensor_by_name("phase_train:0")
         self.sess = tf.Session(graph=graph)
 
     def prewhiten(self, x):
@@ -112,18 +103,11 @@ class FaceNetModel:
 
 class InsightFaceModel:
     def __init__(self, model_path):
-        graph = tf.Graph()
-        with graph.as_default():
-            with tf.gfile.GFile(model_path, 'rb') as f:
-                graph_def = tf.GraphDef()
-                graph_def.ParseFromString(f.read())
-                tf.import_graph_def(graph_def, name='')
-                self.input_image = graph.get_tensor_by_name("input_image:0")
-                self.embeddings = graph.get_tensor_by_name("embd_extractor/BatchNorm_1/Reshape_1:0")
-                self.train_phase = graph.get_tensor_by_name("train_phase:0")
-                self.train_phase_last = graph.get_tensor_by_name("train_phase_last:0")
-
-
+        graph = load_graph(model_path)
+        self.input_image = graph.get_tensor_by_name("input_image:0")
+        self.embeddings = graph.get_tensor_by_name("embd_extractor/BatchNorm_1/Reshape_1:0")
+        self.train_phase = graph.get_tensor_by_name("train_phase:0")
+        self.train_phase_last = graph.get_tensor_by_name("train_phase_last:0")
         self.sess = tf.Session(graph=graph)
 
     def getEmbedding(self, img):
