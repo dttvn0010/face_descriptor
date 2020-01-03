@@ -14,5 +14,5 @@ def getCosineDist(v1, v2):
 f11,f12 = fd.getFaceFeatures(readImage(sys.argv[1]))
 f21,f22 = fd.getFaceFeatures(readImage(sys.argv[2]))
 
-print('Euclide diatance:', np.sum(np.square(f11-f21)), np.sum(np.square(f12-f22)))
-print('Cosine simarlity:', getCosineDist(f11, f21), getCosineDist(f12, f22))
+print('Euclide distance:', np.sum(np.square(f11-f21)), np.sum(np.square(f12-f22)))
+print('Cosine similarity:', getCosineDist(f11, f21), getCosineDist(f12, f22))
