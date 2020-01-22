@@ -21,8 +21,11 @@ def get_model(ctx, image_size, model_str, layer):
   return model
 
 class FaceModel:
-  def __init__(self):
-    ctx = mx.cpu()    
+  def __init__(self, gpu=-1):
+    if gpu >= 0:
+      ctx = mx.gpu(gpu)
+    else:
+      ctx = mx.cpu()    
     image_size = (112,112)
     self.model = get_model(ctx, image_size, 'model_weights/insight_face/face-model-r100-ii/model,0', 'fc1')
     self.image_size = image_size
