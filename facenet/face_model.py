@@ -50,6 +50,7 @@ class FaceModel():
         return None
         
     def getFaceFeatures(self, image):
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         aligned = self.getAlignedImage(image)
         embedding = None
         
