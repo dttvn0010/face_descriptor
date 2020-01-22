@@ -26,7 +26,7 @@ class FaceModel:
     image_size = (112,112)
     self.model = get_model(ctx, image_size, 'model_weights/insight_face/face-model-r100-ii/model,0', 'fc1')
     self.image_size = image_size
-    self.detector =  MtcnnDetector(minsize=20, model_folder='model_weights/insight_face/mtcnn-model', ctx=ctx, num_worker=1, accurate_landmark = True, threshold=[0.6,0.7,0.8])
+    self.detector =  MtcnnDetector(model_folder='model_weights/insight_face/mtcnn-model', ctx=ctx, num_worker=1, accurate_landmark = True, threshold=[0.6,0.7,0.8])
 
 
   def getAlignedImage(self, img):
