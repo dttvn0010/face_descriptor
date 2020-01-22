@@ -1,8 +1,8 @@
 import numpy as np
 import tensorflow as tf
 from tensorflow.python.platform import gfile
-from preprocess import preprocess
-import align.detect_face
+from .preprocess import preprocess
+from .align import detect_face
 
 def prewhiten(x):
     mean = np.mean(x)
@@ -14,9 +14,9 @@ def prewhiten(x):
 def getArea(box):   
     return (box[2]-box[0]) * (box[3]-box[1])
     
-class FaceDescriptor():
+class FaceModel():
     def __init__(self):
-        pnet, rnet, onet = align.detect_face.create_mtcnn(tf.Session(), 'align')
+        pnet, rnet, onet = detect_face.create_mtcnn(tf.Session(), 'facenet/align')
         self.pnet = pnet
         self.rnet = rnet
         self.onet = onet
@@ -34,7 +34,7 @@ class FaceDescriptor():
         self.sess = tf.Session(graph=graph)
         
     def getAlignedImage(self, img):
-        bbox, _ = align.detect_face.detect_face(img, minsize=50, pnet=self.pnet, rnet=self.rnet, onet=self.onet, 
+        bbox, _ = detect_face.detect_face(img, minsize=50, pnet=self.pnet, rnet=self.rnet, onet=self.onet, 
                                     threshold=[ 0.6, 0.7, 0.8 ], factor=0.709)
     
             

@@ -4,9 +4,9 @@ import os
 import numpy as np
 from random import shuffle
 
-from face_descriptor import FaceDescriptor
+from facenet.face_model import FaceModel
 
-fd = FaceDescriptor()
+model = FaceModel()
 
 if not os.path.exist('embeddings'):
     os.mkdir('embeddings')
@@ -17,7 +17,7 @@ for p in os.listdir('face_db'):
     for f in os.listdir(os.path.join('face_db', p)):
         img = cv2.imread(os.path.join('face_db', p, f))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        features = fd.getFaceFeatures(img)
+        features = model.getFaceFeatures(img)
         
         if features is not None:
             features.tofile(os.path.join('embeddings', p, f+'.np'))
