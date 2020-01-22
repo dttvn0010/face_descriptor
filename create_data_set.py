@@ -12,7 +12,9 @@ DATA_DIR = 'face_db'
 EMB_DIRS = 'embeddings'
 model = FaceModel()
 
-shutil.rmtree(EMB_DIRS)
+if os.path.exists(EMB_DIRS):
+    shutil.rmtree(EMB_DIRS)
+    
 os.mkdir(EMB_DIRS)
     
 for p in os.listdir(DATA_DIR):
