@@ -1,5 +1,6 @@
 import numpy as np
 import tensorflow as tf
+import cv2
 from tensorflow.python.platform import gfile
 from .preprocess import preprocess
 from .align import detect_face
