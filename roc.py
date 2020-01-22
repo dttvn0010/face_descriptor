@@ -27,6 +27,8 @@ def calcAcc(thresh):
         elif ytrain[i] != y:
             false_pos += 1
     return (1-false_neg/Ntest), (1-false_pos/Ntest)
+    
+print(calcAcc(0.775))    
             
         
         
