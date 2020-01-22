@@ -2,10 +2,10 @@ from sklearn.svm import SVC
 import numpy as np
 
 Xtrain = np.fromfile('Xtrain.np', dtype='float32').reshape((-1,512))
-ytrain = np.fromfile('ytrain.np', dtype='int32')
+ytrain = np.fromfile('ytrain.np', dtype='int64')
 
 Xtest = np.fromfile('Xtest.np', dtype='float32').reshape((-1,512))
-ytest = np.fromfile('ytest.np', dtype='int32')
+ytest = np.fromfile('ytest.np', dtype='int64')
 
 Xtrain = [x/np.linalg.norm(x) for x in Xtrain]
 Xtest = [x/np.linalg.norm(x) for x in Xtest]
