@@ -47,6 +47,8 @@ class FaceModel:
 
   def getFaceFeatures(self, image):
     aligned = self.getAlignedImage(image)
+    if aligned is None:
+      return None
     input_blob = np.expand_dims(aligned, axis=0)
     data = mx.nd.array(input_blob)
     db = mx.io.DataBatch(data=(data,))
