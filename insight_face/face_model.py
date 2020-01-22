@@ -4,7 +4,6 @@ import cv2
 import sklearn
 from sklearn.decomposition import PCA
 from .mtcnn_detector import MtcnnDetector
-from . import face_image
 from . import face_preprocess
 
 def get_model(ctx, image_size, model_str, layer):
