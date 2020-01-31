@@ -2,8 +2,8 @@ import cv2
 import sys
 import numpy as np
 
-#from insight_face.face_model import FaceModel
-from facenet.face_model import FaceModel
+from insight_face.face_model import FaceModel
+#from facenet.face_model import FaceModel
 
 model = FaceModel()
 
