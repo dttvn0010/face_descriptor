@@ -1,4 +1,4 @@
-tensorflow==1.15.0
+tensorflow==1.14
 mxnet==1.5.1
 opencv-python==4.1.2.30
 scikit-image==0.16.2
