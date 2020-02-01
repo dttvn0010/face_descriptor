@@ -22,7 +22,6 @@ for p in os.listdir(DATA_DIR):
     os.mkdir(os.path.join(EMB_DIRS, p))
     for f in os.listdir(os.path.join(DATA_DIR, p)):
         img = cv2.imread(os.path.join(DATA_DIR, p, f))
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         features = model.getFaceFeatures(img)
         
         if features is not None:
