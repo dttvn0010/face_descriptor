@@ -30,4 +30,4 @@ def calcAcc(thresh):
         
     return (1-false_neg/Ntest), (1-false_pos/Nver)
     
-print(calcAcc(0.65))  # insight_face~0.65, facenet~0.84-0.085
+print(calcAcc(0.65))  # insight_face~0.65, facenet~0.84-0.85
