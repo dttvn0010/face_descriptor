@@ -1,4 +1,3 @@
-from sklearn.svm import SVC
 import numpy as np
 
 Xtrain = np.fromfile('Xtrain.np', dtype='float32').reshape((-1,512))
