@@ -1,17 +1,8 @@
 1. Install requirements:
     pip/pip3 install -r requirements.txt
 
-2. Download images:
-   python/python3 download_data.py
-
-3. Download model_weights:
+2. Download model_weights:
    python/python3 download_model.py
 
-4. Generating embeddings for each image in dataset (use GPU to reduce running time):
-   python/python3 generate_embeddings.py
-
-5. Create numpy dataset:
-   python/python3 create_data_set.py
-
-6. Calculate accuracy: In roc.py, setting threshold ~0.65 (insightface) , or 0.84-0.85 (facenet) before running:
-   python/python3 roc.py
+3. Compare 2 images
+   python/python3 compare.py <img1.jpg> <img2.png>
